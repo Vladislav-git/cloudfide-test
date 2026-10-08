@@ -1,4 +1,16 @@
 services:
+  frontend:
+    build:
+      context: .
+      args:
+        # Requests come from the browser on the host, so use the published backend port.
+        VITE_API_URL: "http://localhost:5001"
+    container_name: modular-form-creator-frontend
+    # Served on host port 5173 because that is the origin the backend's CORS allows.
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
   backend:
     build: ./backend
     container_name: modular-form-creator-backend
